@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/utils/DBContext.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/dao/UserDAO.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/TourDetailServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/model/User.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/web/home.jsp</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/dao/TourDAO.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/web/index.html</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/web/login.jsp</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/model/Tour.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/HomeServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/TourSocket.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/LoginServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/LogoutServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/web/detail.jsp</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/nbproject/project.properties</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/BookingServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/src/java/com/tour/controller/RegisterServlet.java</file>
+            <file>file:/C:/Users/Hoang%20Anh/Documents/NetBeansProjects/TourRealtimeSystem/web/register.jsp</file>
+        </group>
+    </open-files>
+</project-private>
