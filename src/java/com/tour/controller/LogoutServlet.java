@@ -15,17 +15,21 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // 1. Lấy phiên làm việc hiện tại (Session)
+        // 1. Lấy phiên làm việc hiện tại
         HttpSession session = request.getSession();
         
-        // 2. Xóa thông tin tài khoản đã lưu (key là "account" như lúc Login)
-        session.removeAttribute("account");
+        // 2. HỦY HOÀN TOÀN SESSION CŨ (Xóa sạch tài khoản, rác, lịch sử...)
+        // Lệnh này an toàn hơn removeAttribute rất nhiều
+        session.invalidate(); 
         
-        // Hoặc dùng lệnh này để xóa sạch sành sanh mọi thứ trong session (an toàn hơn)
-        // session.invalidate(); 
+        // 3. Tạo một Session MỚI TINH để lưu thông báo
+        // (Vì session cũ đã bị hủy ở bước 2 rồi, không lưu vào đó được nữa)
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("successMsg", "Đã đăng xuất thành công!");
         
-        // 3. Quay trở lại trang chủ
-        response.sendRedirect("home");
+        // 4. Chuyển hướng về trang LOGIN
+        // (Để hiện cái khung màu xanh chúng ta vừa code bên login.jsp)
+        response.sendRedirect("login");
     }
 
     @Override
