@@ -19,8 +19,7 @@ public class BookingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        request.setCharacterEncoding("UTF-8");
-        String idRaw = request.getParameter("tour_id");
+        request.setCharacterEncoding("UTF-8"); // Quan trọng để nhận tiếng Việt
         
         try {
             HttpSession session = request.getSession();
@@ -31,31 +30,38 @@ public class BookingServlet extends HttpServlet {
                 return;
             }
 
-            int tourId = Integer.parseInt(idRaw);
+            int tourId = Integer.parseInt(request.getParameter("tour_id"));
+            
+            // --- NHẬN DỮ LIỆU TÙY CHỌN TỪ FORM ---
+            double finalPrice = Double.parseDouble(request.getParameter("finalPrice"));
+            String orderNotes = request.getParameter("orderNotes");
+            // ------------------------------------
             
             TourDAO tourDao = new TourDAO();
             boolean success = tourDao.bookingTour(tourId);
             
             if (success) {
-                // 1. Lưu vào DB
                 BookingDAO bookingDao = new BookingDAO();
-                bookingDao.insertBooking(user.getId(), tourId);
                 
-                // 2. Gửi WebSocket
+                // 1. Lưu vào DB (Gọi hàm mới có 4 tham số)
+                bookingDao.insertBooking(user.getId(), tourId, finalPrice, orderNotes);
+                
                 Tour t = tourDao.getTourById(tourId);
+                
+                // 2. GỬI WEBSOCKET
                 if (t != null) {
                     TourSocket.broadcast("UPDATE:" + t.getId() + ":" + t.getCurrentCapacity());
+                    
+                    int newBookingId = bookingDao.getLatestBookingId(user.getId());
+                    String msgAdmin = "NEW_BOOKING:" + newBookingId + ":" + user.getFullName() + ":" + 
+                                      user.getPhoneNumber() + ":" + t.getName() + ":" + tourId + ":" + user.getId();
+                    TourSocket.broadcast(msgAdmin);
                 }
 
-                // 3. THÔNG BÁO THÀNH CÔNG
-                // Thêm đường link <a> vào thông báo để ai thích thì bấm xem lịch sử
-                session.setAttribute("successMsg", "Đặt vé thành công! <a href='history' class='fw-bold text-decoration-underline'>Xem lịch sử tại đây</a>");
-                
-                // 4. QUAY VỀ TRANG CHỦ (Thay vì history)
+                session.setAttribute("successMsg", "Đặt vé thành công! Tổng tiền: " + String.format("%,.0f", finalPrice) + " VNĐ");
                 response.sendRedirect("home");
                 
             } else {
-                // Thất bại
                 session.setAttribute("errorMsg", "Rất tiếc! Tour này vừa hết chỗ.");
                 response.sendRedirect("home"); 
             }

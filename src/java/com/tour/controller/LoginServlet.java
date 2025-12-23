@@ -24,6 +24,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        request.setCharacterEncoding("UTF-8"); // Đảm bảo xử lý tiếng Việt
+        
         String u = request.getParameter("user");
         String p = request.getParameter("pass");
         
@@ -35,8 +38,21 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("account", user);
             
-            // Chuyển hướng về trang chủ
-            response.sendRedirect("home");
+            // --- PHÂN QUYỀN ĐIỀU HƯỚNG ---
+            String role = user.getRole();
+            
+            if ("ADMIN".equals(role)) {
+                // Nếu là Admin -> Vào trang quản lý
+                response.sendRedirect("manager");
+            } else if ("GUIDE".equals(role)) {
+                // Nếu là Hướng dẫn viên -> Vào trang guide
+                response.sendRedirect("guide");
+            } else {
+                // Nếu là Khách hàng -> Về trang chủ
+                response.sendRedirect("home");
+            }
+            // -----------------------------
+            
         } else {
             // Đăng nhập thất bại -> Báo lỗi
             request.setAttribute("mess", "Sai tên đăng nhập hoặc mật khẩu!");

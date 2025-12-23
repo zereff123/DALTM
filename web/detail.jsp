@@ -2,6 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<fmt:setLocale value="vi_VN"/>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,63 +13,20 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body { 
-            background-color: #f8f9fa; 
-            font-family: 'Nunito', sans-serif; /* Phông nội dung mềm mại */
-        }
-        
-        /* Tiêu đề dùng Montserrat */
-        h1, h2, h3, h4, h5, .navbar-brand, .price-tag, .btn {
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* Navbar Gradient */
+        body { background-color: #f8f9fa; font-family: 'Nunito', sans-serif; }
+        h1, h2, h3, h4, h5, .navbar-brand, .price-tag, .btn { font-family: 'Montserrat', sans-serif; }
         .navbar { background: linear-gradient(to right, #00c6ff, #0072ff); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-
-        /* Gallery Ảnh */
-        .main-img { 
-            width: 100%; height: 450px; object-fit: cover; border-radius: 15px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        /* Thông tin Highlights */
-        .highlight-box {
-            background: white; border-radius: 10px; padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
-        }
+        .main-img { width: 100%; height: 450px; object-fit: cover; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .highlight-box { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
         .icon-box i { font-size: 1.5rem; color: #0072ff; margin-bottom: 5px; }
-        
-        /* Sidebar Đặt vé (Trôi theo màn hình) */
-        .booking-sidebar {
-            position: sticky; top: 90px;
-            background: white; border-radius: 15px; padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee;
-        }
-        
+        .booking-sidebar { position: sticky; top: 90px; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eee; }
         .price-tag { font-size: 1.8rem; color: #2c3e50; font-weight: 800; }
-        
-        /* Real-time Counter */
-        .seat-counter-box {
-            background: #f1f3f5; border-radius: 10px; padding: 15px; margin: 15px 0;
-            text-align: center; border: 1px dashed #adb5bd;
-        }
-        
-        /* Buttons */
-        .btn-book-now {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-            border: none; color: white; font-weight: bold; padding: 12px;
-            border-radius: 50px; box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
-            transition: 0.3s;
-        }
+        .seat-counter-box { background: #f1f3f5; border-radius: 10px; padding: 15px; margin: 15px 0; text-align: center; border: 1px dashed #adb5bd; }
+        .btn-book-now { background: linear-gradient(to right, #ff416c, #ff4b2b); border: none; color: white; font-weight: bold; padding: 12px; border-radius: 50px; box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4); transition: 0.3s; }
         .btn-book-now:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 65, 108, 0.6); color: white; }
-        
-        /* Animation */
         .highlight-update { animation: flash 1s; background-color: #fff3cd !important; color: #856404 !important; }
         @keyframes flash { 0% { background-color: #ffeeba; } 100% { background-color: transparent; } }
     </style>
@@ -82,14 +41,12 @@
     </nav>
 
     <div class="container mb-5">
-        
         <div class="mb-4">
             <h1 class="fw-bold text-dark">${tour.name}</h1>
             <p class="text-muted mb-0"><i class="fas fa-map-marker-alt text-danger me-2"></i> ${tour.location}</p>
         </div>
 
         <div class="row">
-            
             <div class="col-lg-8">
                 <img src="${tour.imageUrl}" class="main-img mb-4" alt="Tour Image">
                 
@@ -100,17 +57,23 @@
                             <small class="text-muted">Thời gian</small>
                             <div class="fw-bold">3 Ngày 2 Đêm</div>
                         </div>
+                        
                         <div class="col-3 border-end">
-                            <div class="icon-box"><i class="fas fa-car"></i></div>
+                            <div class="icon-box">
+                                <c:choose>
+                                    <c:when test="${tour.transport == 'Máy Bay'}"><i class="fas fa-plane"></i></c:when>
+                                    <c:when test="${tour.transport == 'Tàu Hỏa'}"><i class="fas fa-subway"></i></c:when>
+                                    <c:when test="${tour.transport == 'Du Thuyền'}"><i class="fas fa-ship"></i></c:when>
+                                    <c:otherwise><i class="fas fa-bus"></i></c:otherwise>
+                                </c:choose>
+                            </div>
                             <small class="text-muted">Di chuyển</small>
-                            <div class="fw-bold">Xe Giường Nằm</div>
+                            <div class="fw-bold text-primary">${tour.transport}</div>
                         </div>
                         <div class="col-3 border-end">
                             <div class="icon-box"><i class="far fa-calendar-alt"></i></div>
                             <small class="text-muted">Khởi hành</small>
-                            <div class="fw-bold text-primary">
-                                <fmt:formatDate value="${tour.startDate}" pattern="dd/MM/yyyy"/>
-                            </div>
+                            <div class="fw-bold text-primary"><fmt:formatDate value="${tour.startDate}" pattern="dd/MM/yyyy"/></div>
                         </div>
                         <div class="col-3">
                             <div class="icon-box"><i class="fas fa-user-shield"></i></div>
@@ -127,11 +90,12 @@
                     </p>
                     
                     <h5 class="fw-bold mt-4"><i class="fas fa-route text-success"></i> Lịch Trình Dự Kiến</h5>
-                    <ul class="list-group list-group-flush mt-3">
-                        <li class="list-group-item"><strong class="text-primary">Ngày 01:</strong> Đón khách - Tham quan địa điểm A - Ăn trưa.</li>
-                        <li class="list-group-item"><strong class="text-primary">Ngày 02:</strong> Khám phá địa điểm B - Gala Dinner tối.</li>
-                        <li class="list-group-item"><strong class="text-primary">Ngày 03:</strong> Mua sắm đặc sản - Trả khách về điểm hẹn.</li>
-                    </ul>
+                    
+                    <div class="mt-3 p-3 bg-light rounded border">
+                        <p style="white-space: pre-line; line-height: 1.8; color: #333;">
+                            <c:out value="${tour.itinerary}" default="Đang cập nhật lịch trình..." />
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -139,7 +103,7 @@
                 <div class="booking-sidebar">
                     <div class="text-muted small text-uppercase fw-bold ls-1 mb-1">Giá trọn gói / khách</div>
                     <div class="price-tag mb-3 text-primary">
-                        <fmt:formatNumber value="${tour.price}" type="currency" currencySymbol=""/> VNĐ
+                        <fmt:formatNumber value="${tour.price}" pattern="#,###"/> VNĐ
                     </div>
                     
                     <hr>
@@ -154,39 +118,32 @@
                         </div>
                         <div class="progress mt-2" style="height: 6px;">
                             <c:set var="percent" value="${(tour.currentCapacity * 100) / tour.maxCapacity}"/>
-                            <div class="progress-bar ${percent >= 100 ? 'bg-danger' : 'bg-success'}" 
-                                 role="progressbar" style="width: ${percent}%"></div>
+                            <div class="progress-bar ${percent >= 100 ? 'bg-danger' : 'bg-success'}" role="progressbar" style="width: ${percent}%"></div>
                         </div>
                         <small class="text-danger mt-1 d-block fst-italic">*Dữ liệu cập nhật liên tục</small>
                     </div>
 
                     <c:if test="${sessionScope.account == null}">
-                        <div class="alert alert-warning text-center small">
-                            <i class="fas fa-lock"></i> Bạn cần đăng nhập để đặt vé
-                        </div>
+                        <div class="alert alert-warning text-center small"><i class="fas fa-lock"></i> Bạn cần đăng nhập để đặt vé</div>
                         <a href="login" class="btn btn-outline-primary w-100 rounded-pill fw-bold">Đăng Nhập Ngay</a>
                     </c:if>
 
                     <c:if test="${sessionScope.account != null}">
                         <c:if test="${tour.currentCapacity < tour.maxCapacity}">
-                            <form action="booking" method="post">
-                                <input type="hidden" name="tour_id" value="${tour.id}">
-                                <div class="mb-3">
-                                    <label class="form-label small fw-bold">Thông tin khách hàng:</label>
-                                    <input type="text" class="form-control bg-light" value="${sessionScope.account.fullName}" readonly>
-                                    <input type="text" class="form-control bg-light mt-2" value="${sessionScope.account.phoneNumber}" readonly>
-                                </div>
-                                <button type="submit" class="btn btn-book-now w-100 btn-lg">
-                                    <i class="fas fa-paper-plane me-2"></i> XÁC NHẬN ĐẶT VÉ
-                                </button>
-                                <p class="text-center small text-muted mt-2">Không thanh toán ngay - Giữ chỗ miễn phí</p>
-                            </form>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Thông tin khách hàng:</label>
+                                <input type="text" class="form-control bg-light" value="${sessionScope.account.fullName}" readonly>
+                                <input type="text" class="form-control bg-light mt-2" value="${sessionScope.account.phoneNumber}" readonly>
+                            </div>
+
+                            <a href="pre-booking?id=${tour.id}" class="btn btn-book-now w-100 btn-lg text-decoration-none d-block text-center pt-2">
+                                <i class="fas fa-file-invoice-dollar me-2"></i> TIẾN HÀNH ĐẶT VÉ
+                            </a>
+                            <p class="text-center small text-muted mt-2">Xem lại hóa đơn trước khi chốt đơn</p>
                         </c:if>
                         
                         <c:if test="${tour.currentCapacity >= tour.maxCapacity}">
-                            <button class="btn btn-secondary w-100 btn-lg rounded-pill" disabled>
-                                <i class="fas fa-ban"></i> ĐÃ HẾT CHỖ
-                            </button>
+                            <button class="btn btn-secondary w-100 btn-lg rounded-pill" disabled><i class="fas fa-ban"></i> ĐÃ HẾT CHỖ</button>
                             <div class="text-center mt-2 small text-muted">Vui lòng chọn ngày khác hoặc tour khác</div>
                         </c:if>
                     </c:if>
@@ -197,45 +154,48 @@
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 
     <footer class="bg-dark text-light text-center py-4 mt-auto">
-        <div class="container">
-            <p class="mb-0 small opacity-75">&copy; 2024 Travel Booking System. Professional Edition.</p>
-        </div>
+        <div class="container"><p class="mb-0 small opacity-75">&copy; 2024 Travel Booking System. Professional Edition.</p></div>
     </footer>
 
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-primary text-white">
+                <i class="fas fa-comment-dots me-2"></i>
+                <strong class="me-auto" id="toastSender">Thông báo mới</strong>
+                <small>Vừa xong</small>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body fw-bold" id="toastContent">Bạn có tin nhắn mới!</div>
+            <div class="toast-footer bg-light p-2 text-end">
+                <a href="#" id="toastLink" class="btn btn-sm btn-primary">Xem ngay</a>
+            </div>
+        </div>
+    </div>
+    <audio id="notifSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // WebSocket Script
-        var socket = new WebSocket("ws://26.70.226.190:8080/TourRealtimeSystem/ws");
-
-        socket.onopen = function(event) {
-            console.log("WebSocket Detail Page Connected!");
-        };
-
+        var socket = new WebSocket("ws://10.15.73.207:8080/TourRealtimeSystem/ws");
+        socket.onopen = function(event) { console.log("WebSocket Detail Connected!"); };
         socket.onmessage = function(event) {
-            var msg = event.data; 
+            var msg = event.data;
             if (msg.startsWith("UPDATE:")) {
                 var parts = msg.split(":");
                 var tourId = parts[1];
                 var newCount = parts[2];
-                
                 if (tourId == "${tour.id}") {
                     var spanElement = document.getElementById("seat-" + tourId);
                     if (spanElement) {
                          var currentText = spanElement.innerText;
                          var maxCapacity = currentText.split("/")[1];
-                         
                          spanElement.innerText = newCount + " /" + maxCapacity;
-                         
                          spanElement.classList.add("highlight-update");
-                         setTimeout(() => {
-                             spanElement.classList.remove("highlight-update");
-                         }, 1000);
-                         
+                         setTimeout(() => { spanElement.classList.remove("highlight-update"); }, 1000);
                          if (parseInt(newCount) >= parseInt(maxCapacity.trim())) {
                              spanElement.classList.remove("text-success");
                              spanElement.classList.add("text-danger");
@@ -244,6 +204,28 @@
                 }
             }
         };
+
+        <c:if test="${sessionScope.account != null}">
+            var myId = ${sessionScope.account.id};
+            var socketChat = new WebSocket("ws://10.15.73.207:8080/TourRealtimeSystem/chat?userId=" + myId);
+            socketChat.onmessage = function(event) {
+                var msg = event.data;
+                var parts = msg.split(":");
+                if (parts.length >= 3) {
+                    var senderId = parts[0];
+                    var senderName = parts[1];
+                    var content = parts.slice(2).join(":");
+                    var audio = document.getElementById("notifSound");
+                    audio.play().catch(e => console.log("Cần tương tác để phát âm thanh"));
+                    document.getElementById("toastSender").innerText = "Tin nhắn từ " + senderName;
+                    document.getElementById("toastContent").innerText = content;
+                    document.getElementById("toastLink").href = "chat?partnerId=" + senderId;
+                    var toastEl = document.getElementById('liveToast');
+                    var toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                }
+            };
+        </c:if>
     </script>
 </body>
 </html>

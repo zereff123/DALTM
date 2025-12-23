@@ -26,6 +26,7 @@ public class UserDAO {
                     rs.getString("full_name"),
                     rs.getString("role"),
                     rs.getString("phone_number")
+                        
                 );
             }
         } catch (Exception e) {
@@ -33,6 +34,21 @@ public class UserDAO {
         }
         return null;
     }
+    
+    public User getUserById(int id) {
+    String query = "SELECT * FROM Users WHERE user_id = ?";
+    try {
+        Connection conn = new DBContext().getConnection();
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new User(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"), 
+                            rs.getString("full_name"), rs.getString("role"), rs.getString("phone_number"));
+        }
+    } catch (Exception e) { e.printStackTrace(); }
+    return null;
+}
 
     // 2. Đăng ký tài khoản (CHUẨN 4 THAM SỐ)
     public boolean register(String user, String pass, String fullname, String phone) {
